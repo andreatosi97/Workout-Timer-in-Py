@@ -17,12 +17,14 @@ def main():
             root.update()
             counter += 1
 
-    def rest_timer(tot_time, chilos):
+    def rest_timer(tot_time, name, chilos):
         while tot_time > -1:
             mins = int(tot_time / 60)
             secs = tot_time % 60
             upper_label.config(text=f"{mins:02}:{secs:02}\n")
-            lower_label.config(text="Next Exercise\nuse " + str(chilos) + " Kg\n")
+            lower_label.config(
+                text="Next exercise is\n" + name + "\nand use " + str(chilos) + " Kg"
+            )
             root.update()
             time.sleep(1)
             tot_time -= 1
@@ -46,13 +48,15 @@ def main():
                 tot_time = int(secs) + 60 * int(mins)
                 ### improve nested exception
                 try:
+                    name = block.name
                     chilos = block.sets_plan[set_ind + 1][1]
                 except:
                     try:
+                        name = plan[block_ing + 1].name
                         chilos = plan[block_ind + 1].sets_plan[0][1]
                     except:
                         break
-                rest_timer(tot_time, chilos)
+                rest_timer(tot_time, name, chilos)
             block_ind += 1
 
         upper_label.config(text="\t")
